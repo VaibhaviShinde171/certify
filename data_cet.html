@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="css/data.css">
+</head>
+<body>
+    <div class="form-container">
+         <form id="data-form" class="data-form" action="process_data.php" method="POST"  >       <!--action="certificate.html" method="get" -->
+            <h2>Data Form</h2>
+            <div class="input-group">
+                <label for="university_name">University Name</label>
+                <input type="text" id="university_name" name="university_name" required>
+            </div>
+            <div class="input-group">
+                <label for="university_id">University ID</label>
+                <input type="text" id="university_id" name="university_id" required>
+            </div>
+            <div class="input-group">
+                <label for="student_name">Student Name</label>
+                <input type="text" id="student_name" name="student_name" required>
+            </div>
+            <div class="input-group">
+                <label for="issue_date">Issue Date</label>
+                <input type="date" id="issue_date" name="issue_date" required>
+            </div>
+            <div class="input-group">
+                <label for="course_name">Course Name</label>
+                <input type="text" id="course_name" name="course_name" required>
+            </div>
+            <button type="button" onclick="generatePDF()">Submit</button>
+        </form>
+    </div>
+
+    <div class="iframe-container">
+        <iframe src="" id="mypdf" width="500px" height="500px" frameborder="0"></iframe>
+    </div>
+    <script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
+    <script>
+        async function generatePDF() {
+            const { PDFDocument, rgb, StandardFonts } = PDFLib;
+
+            const name = document.getElementById('student_name').value;
+
+            const exBytes = await fetch("./cert.pdf").then((res) => {
+                return res.arrayBuffer();
+            });
+
+            const pdfDoc = await PDFDocument.load(exBytes);
+
+            const exFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+            const pages = pdfDoc.getPages();
+            const firstPage = pages[0];
+            const { width, height } = firstPage.getSize();
+
+            firstPage.drawText(name, {
+                x: width / 2 - name.length * 5 - 50, // Centered horizontally
+                y: height / 2, // Centered vertically
+                size: 35,
+                font: exFont,
+                color: rgb(0, 0, 0),
+            });
+
+            const pdfBytes = await pdfDoc.save();
+
+            // Create a Blob from the PDF data
+            const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
+
+            // Create a URL for the Blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+
+            // Set the URL as the src attribute for the iframe
+            document.getElementById('mypdf').src = pdfUrl;
+        }
+    </script>
+</body>
+</html>

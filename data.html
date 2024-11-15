@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <link rel="stylesheet" href="css/data.css">
+</head>
+<body>
+    <div class="form-container">
+         <form id="data-form" class="data-form" action="process_data.php" method="POST"  >       <!--action="certificate.html" method="get" -->
+            <h2>Data Form</h2>
+            <div class="input-group">
+                <label for="university_name">University Name</label>
+                <input type="text" id="university_name" name="university_name" required>
+            </div>
+            <div class="input-group">
+                <label for="university_id">University ID</label>
+                <input type="text" id="university_id" name="university_id" required>
+            </div>
+            <div class="input-group">
+                <label for="student_name">Student Name</label>
+                <input type="text" id="student_name" name="student_name" required>
+            </div>
+            <div class="input-group">
+                <label for="issue_date">Issue Date</label>
+                <input type="date" id="issue_date" name="issue_date" required>
+            </div>
+            <div class="input-group">
+                <label for="course_name">Course Name</label>
+                <input type="text" id="course_name" name="course_name" required>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <!-- <script src = "certificate.js"></script> -->
+    <!-- <script>
+        document.getElementById('data-form').addEventListener('submit', function(event) {
+            // Prevent the form from submitting normally
+            event.preventDefault();
+
+            // Redirect to certificate.html
+            window.location.href = 'certificate.html';
+        });
+    </script> -->
+
+</body>
+</html>
+
+
+
